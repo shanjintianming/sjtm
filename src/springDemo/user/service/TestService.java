@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import springDemo.user.dao.TestDao;
+import springDemo.user.entry.UserEntry;
 
 @Service()
 public class TestService {
@@ -14,10 +15,8 @@ public class TestService {
 	private TestDao testDao;
 	
 	@Transactional(propagation = Propagation.REQUIRED)
-	public String getViewName() {
-		
+	public String getViewName(UserEntry entry) {
 		testDao.selectCount();
-		
 		return "test";
 	}
 }

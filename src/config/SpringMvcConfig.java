@@ -7,13 +7,12 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ViewResolver;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.handler.SimpleServletHandlerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
-@EnableWebMvc
 @ComponentScan(basePackages = "springDemo.*.controller", useDefaultFilters=false, includeFilters={
 		@ComponentScan.Filter(type = FilterType.ANNOTATION, value={Controller.class})
 })
@@ -27,8 +26,10 @@ public class SpringMvcConfig extends WebMvcConfigurationSupport {
 	@Bean
 	public ViewResolver viewResolver() {
 		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-		viewResolver.setPrefix("/WEB-INF/jsp/");
-		viewResolver.setSuffix(".jsp");
+		viewResolver.setViewClass(org.springframework.web.servlet.view.JstlView.class);
+		viewResolver.setPrefix("/WEB-INF/view/");
+		viewResolver.setSuffix(".html");
+		viewResolver.setContentType("text/html;charset=UTF-8");
 		return viewResolver;
 	}
 
@@ -45,4 +46,16 @@ public class SpringMvcConfig extends WebMvcConfigurationSupport {
 		return new SimpleServletHandlerAdapter();
 	}
 
+	/**                                                           
+     * 描述 : <资源访问处理器>. <br>  
+     *<p>  
+        <可以在jsp中使用/static/**的方式访问/WEB-INF/static/下的内容>   
+      </p>                                                                                                                                                                                                                                                 
+     * @param registry                                                                                                       
+     */    
+    @Override  
+    protected void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/WEB-INF/view/*.html").addResourceLocations("/WEB-INF/view/");
+        registry.addResourceHandler("/static/**").addResourceLocations("/static/");  
+    }  
 }
