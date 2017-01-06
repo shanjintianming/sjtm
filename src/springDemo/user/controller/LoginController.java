@@ -5,13 +5,13 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@RequestMapping("login")
 public class LoginController {
 
-	@RequestMapping("login")
-	public String doLogin(){
+	@RequestMapping(value="/dologin", method=RequestMethod.POST)
+	public String doLogin(String name){
 		Subject subject = SecurityUtils.getSubject();
 		UsernamePasswordToken token = new UsernamePasswordToken("zhang", "123");  
 		try {
@@ -19,6 +19,6 @@ public class LoginController {
 		} catch(Exception e){
 			e.printStackTrace();
 		}
-		return "test";
+		return "authorize";
 	}
 }

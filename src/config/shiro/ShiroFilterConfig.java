@@ -27,7 +27,8 @@ public class ShiroFilterConfig {
 		Map<String,String> filterChainDefinitionMap = new HashMap<String,String>();
 		filterChainDefinitionMap.put("/login.html", "anon");
 		filterChainDefinitionMap.put("/index.html", "anon");
-		filterChainDefinitionMap.put("/login/**", "anon");
+		filterChainDefinitionMap.put("/dologin", "anon");
+		filterChainDefinitionMap.put("/static/**", "anon");
 		filterChainDefinitionMap.put("/**", "authc");
 		config.setFilterChainDefinitionMap(filterChainDefinitionMap);
 		return config;

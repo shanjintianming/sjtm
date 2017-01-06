@@ -11,6 +11,7 @@ import org.apache.logging.log4j.web.Log4jServletContextListener;
 import org.apache.logging.log4j.web.Log4jServletFilter;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.WebApplicationInitializer;
+import org.springframework.web.filter.DelegatingFilterProxy;
 
 @Order(1)  
 public class CommonInitializer implements WebApplicationInitializer{  
@@ -30,5 +31,12 @@ public class CommonInitializer implements WebApplicationInitializer{
         filterRegistration.addMappingForUrlPatterns(  
                 EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.INCLUDE, DispatcherType.ERROR), false, "/*");
         
+        // shiroFilter  
+        DelegatingFilterProxy shiroFilter = new DelegatingFilterProxy();
+        shiroFilter.setTargetFilterLifecycle(true);
+        FilterRegistration.Dynamic shiroRegistration = servletContext.addFilter(  
+                "shiroFilter", shiroFilter);  
+        shiroRegistration.addMappingForUrlPatterns(  
+                EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD), false, "/*");
     }
 }  
