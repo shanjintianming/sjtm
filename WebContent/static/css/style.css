@@ -74,7 +74,7 @@ a:hover, a:active {
     position:absolute;
     top:0;
     left:50px;
-    background:url(images/dev7logo.png) no-repeat;
+    background:url(../static/images/dev7logo.png) no-repeat;
     width:60px;
     height:67px;
     border:0;
