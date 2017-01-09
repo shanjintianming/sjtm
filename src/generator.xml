@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+
+	<!-- 本地的数据库驱动包地址 -->
+	<classPathEntry
+		location="D:\java\git\sjtm\WebContent\WEB-INF\lib\mysql-connector-java-6.0.5.jar" />
+	<context id="context1" targetRuntime="MyBatis3" >
+		<plugin type="springDemo.core.plugin.PaginationPlugin" />
+		<commentGenerator >
+			<!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+		<!--数据库配置 -->
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://localhost:3306/oauth?zeroDateTimeBehavior=convertToNull&amp;serverTimezone=GMT%2b8" userId="root" password="123456" />
+		<!-- 实体类配置 -->
+		<javaModelGenerator targetPackage="springDemo.oauth.vo"
+			targetProject="springDemo">
+			<!-- 生成包名是否自动添加项目名称 -->
+			<property name="enableSubPackages" value="false" />
+			<property name="trimStrings" value="true" />
+			<!-- <property name="rootClass" value="com.framework.common.BaseModel" /> -->
+		</javaModelGenerator>
+
+		<!-- 数据库表的Mapper映射配置文件 -->
+		<sqlMapGenerator targetPackage="springDemo.oauth.mapper"
+			targetProject="springDemo">
+			<!-- 生成包名是否自动添加项目名称 -->
+			<property name="enableSubPackages" value="false" />
+		</sqlMapGenerator>
+
+		<!-- 数据持久层文件 -->
+		<javaClientGenerator type="XMLMAPPER"
+			targetPackage="springDemo.oauth.dao" targetProject="springDemo">
+			<!-- 生成包名是否自动添加项目名称 -->
+			<property name="enableSubPackages" value="false" />
+		</javaClientGenerator>
+
+		<!-- sqlMap映射的表 -->
+		<table tableName="oauth_click" schema="oauth">
+			<generatedKey column="id" sqlStatement="Mysql"/>
+		</table>
+	</context>
+</generatorConfiguration>

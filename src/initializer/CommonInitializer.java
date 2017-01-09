@@ -11,6 +11,7 @@ import org.apache.logging.log4j.web.Log4jServletContextListener;
 import org.apache.logging.log4j.web.Log4jServletFilter;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.WebApplicationInitializer;
+import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.filter.DelegatingFilterProxy;
 
 @Order(1)  
@@ -31,6 +32,14 @@ public class CommonInitializer implements WebApplicationInitializer{
         filterRegistration.addMappingForUrlPatterns(  
                 EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.INCLUDE, DispatcherType.ERROR), false, "/*");
         
+        // CharacterEncodingFilter  
+        CharacterEncodingFilter charFilter = new CharacterEncodingFilter();     
+        charFilter.setEncoding("UTF-8");
+        FilterRegistration.Dynamic charRegistration = servletContext.addFilter(  
+                "charFilter", charFilter);  
+        charRegistration.addMappingForUrlPatterns(  
+                EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.INCLUDE, DispatcherType.ERROR), false, "/*");
+        
         // shiroFilter  
         DelegatingFilterProxy shiroFilter = new DelegatingFilterProxy();
         shiroFilter.setTargetFilterLifecycle(true);
@@ -38,5 +47,7 @@ public class CommonInitializer implements WebApplicationInitializer{
                 "shiroFilter", shiroFilter);  
         shiroRegistration.addMappingForUrlPatterns(  
                 EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD), false, "/*");
+        
+        
     }
 }  

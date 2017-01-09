@@ -3,7 +3,7 @@ package config.shiro;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import springDemo.shiro.UserRealm;
+import springDemo.core.shiro.UserRealm;
 
 @Configuration
 public class RealmConfig {
