@@ -18,6 +18,7 @@ public class SessionDaoConfig {
 	@Bean(name="sessionDAO")  
 	public EnterpriseCacheSessionDAO shiroFilterFactoryBean() {	
 		EnterpriseCacheSessionDAO config = new EnterpriseCacheSessionDAO();
+		config.setActiveSessionsCacheName("shiroCache");
 		config.setSessionIdGenerator(sessionIdGenerator);
 		return config;
 	}

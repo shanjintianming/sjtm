@@ -1,5 +1,6 @@
 package config.ehcache;
 
+import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.cache.ehcache.EhCacheManagerFactoryBean;
@@ -21,6 +22,14 @@ public class CacheManagerConfig {
 	@Bean(name="cacheManager")  
 	public EhCacheCacheManager getEhCacheCacheManager() {	
 		EhCacheCacheManager config = new EhCacheCacheManager();
+		config.setCacheManager(getEhCacheManagerFactoryBean().getObject());
+		// config.setTransactionAware(transactionAware);
+		return config;
+	}
+	
+	@Bean(name="shiroCacheManager")  
+	public EhCacheManager getShiroCacheManager(){
+		EhCacheManager config = new EhCacheManager();
 		config.setCacheManager(getEhCacheManagerFactoryBean().getObject());
 		// config.setTransactionAware(transactionAware);
 		return config;

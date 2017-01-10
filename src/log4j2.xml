@@ -25,7 +25,7 @@
 			<DefaultRolloverStrategy max="20" />
             <Filters>
                 <ThresholdFilter level="error" onMatch="DENY" onMismatch="NEUTRAL"/>
-                <ThresholdFilter level="trace" onMatch="ACCEPT" onMismatch="DENY"/>
+                <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY"/>
               </Filters>
         </RollingFile>
         

@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import config.ehcache.CacheManagerConfig;
 import config.shiro.ShiroFilterConfig;
 
 @Configuration 
@@ -17,7 +16,7 @@ import config.shiro.ShiroFilterConfig;
 @EnableAspectJAutoProxy(proxyTargetClass=true)  
 //启用注解事务管理，使用CGLib代理  
 @EnableTransactionManagement(proxyTargetClass = true)
-@Import(value={DaoConfig.class, ShiroFilterConfig.class, CacheManagerConfig.class})
+@Import(value={DaoConfig.class, ShiroFilterConfig.class})
 public class RootConfig {
 	
 }

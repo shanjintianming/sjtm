@@ -21,13 +21,13 @@ public class ShiroFilterConfig {
 	@Bean(name="shiroFilter")  
 	public ShiroFilterFactoryBean shiroFilterFactoryBean() {	
 		ShiroFilterFactoryBean config = new ShiroFilterFactoryBean();
-		config.setLoginUrl("/login.html");
+		config.setLoginUrl("/login");
 		config.setUnauthorizedUrl("/unauthorized.html");
 		config.setSecurityManager(securityManager);	
 		Map<String,String> filterChainDefinitionMap = new HashMap<String,String>();
-		filterChainDefinitionMap.put("/login.html", "anon");
+		filterChainDefinitionMap.put("/", "anon");
 		filterChainDefinitionMap.put("/index.html", "anon");
-		filterChainDefinitionMap.put("/dologin", "anon");
+		filterChainDefinitionMap.put("/login", "anon");
 		filterChainDefinitionMap.put("/oauth/**", "anon");
 		filterChainDefinitionMap.put("/static/**", "anon");
 		filterChainDefinitionMap.put("/**", "authc");

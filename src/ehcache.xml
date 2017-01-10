@@ -15,6 +15,13 @@
         timeToLiveSeconds="60"        
         memoryStoreEvictionPolicy="LFU" />
 
+	<cache name="shiroCache"         
+        maxElementsInMemory="10000"         
+        eternal="false"        
+        overflowToDisk="false"         
+        timeToIdleSeconds="60"         
+        timeToLiveSeconds="60"        
+        memoryStoreEvictionPolicy="LFU" />
     <!-- 配置自定义缓存        
     name：Cache的唯一标识        
     maxElementsInMemory：缓存中允许创建的最大对象数        
