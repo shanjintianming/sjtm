@@ -1,4 +1,4 @@
-package springDemo.oauth.service.serviceImp;
+package springDemo.oauth.service.imp;
 
 import java.util.List;
 

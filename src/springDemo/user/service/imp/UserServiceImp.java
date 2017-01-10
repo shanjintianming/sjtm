@@ -1,4 +1,4 @@
-package springDemo.user.service.serviceImp;
+package springDemo.user.service.imp;
 
 import java.util.List;
 
