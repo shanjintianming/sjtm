@@ -17,13 +17,13 @@
     <div class="container">
       <form id="loginForm" role="form" method="post">
         <div class="form-group">
-          <input type="text" class="form-control" value="1" name="name" placeholder="请输入名称">
+          <input type="text" class="form-control" autocomplete="off" name="name" placeholder="请输入名称">
         </div>
         <div class="form-group">
-          <input type="password" class="form-control" value="1" name="password" placeholder="请输入密码">
+          <input type="password" class="form-control" autocomplete="off" name="password" placeholder="请输入密码">
         </div>
         <div class="form-group">
-          <input type="hidden" value="${client.clickId}" name="client_id" >
+          <input type="hidden" value="${client.clientId}" name="client_id" >
           <input type="hidden" value="${client.clientSecret}" name="client_secret" >
           <input type="hidden" value="code" name="response_type" >
           <input type="hidden" value="${redirectURI}" name="redirect_uri" >
@@ -37,7 +37,7 @@
         $("#submitBtn").click(function(){
         	var local = window.location;
         	var basePath = local.protocol + "//" + local.host + "/";  
-        	$("#loginForm").attr("action",basePath + "springDemo/oauth/authorize");
+        	$("#loginForm").attr("action",basePath + "oauth/authorize");
         	$("#loginForm").submit();
         });
     });

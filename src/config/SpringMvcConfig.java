@@ -14,6 +14,7 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.DefaultMessageCodesResolver;
@@ -71,7 +72,6 @@ public class SpringMvcConfig extends WebMvcConfigurationSupport {
 		ReloadableResourceBundleMessageSource config = new ReloadableResourceBundleMessageSource();
 		config.setBasenames("classpath:property/ValidationMessages",
 				"classpath:org/hibernate/validator/ValidationMessages_zh_CN");
-
 		config.setDefaultEncoding("UTF-8");
 		config.setUseCodeAsDefaultMessage(false);
 		config.setCacheSeconds(60);
@@ -89,7 +89,6 @@ public class SpringMvcConfig extends WebMvcConfigurationSupport {
 		LocalValidatorFactoryBean config = new LocalValidatorFactoryBean();
 		config.setProviderClass(HibernateValidator.class);
 		config.setValidationMessageSource(messageSource());
-
 		return config;
 	}
 	
@@ -165,11 +164,26 @@ public class SpringMvcConfig extends WebMvcConfigurationSupport {
 	
 	@Override
 	protected void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-		converters.add(messageConverter());
+		converters.add(stringHttpMessageConverter());
+		converters.add(jsonHttpMessageConverter());
 	}
+	
+	@Bean(name = "stringHttpMessageConverter")
+	public StringHttpMessageConverter stringHttpMessageConverter() {
+		StringHttpMessageConverter config = new StringHttpMessageConverter();
 
+		List<MediaType> supportedMediaTypes = new ArrayList<MediaType>();
+		Charset charset = Charset.forName("UTF-8");
+		MediaType textMediaType = new MediaType("text", "plain", charset);
+		MediaType jsonMediaType = new MediaType("application", "json", charset);
+		supportedMediaTypes.add(textMediaType);
+		supportedMediaTypes.add(jsonMediaType);
+		config.setSupportedMediaTypes(supportedMediaTypes);
+		return config;
+	}
+	
 	@Bean(name = "mappingJacksonHttpMessageConverter")
-	public MappingJackson2HttpMessageConverter messageConverter() {
+	public MappingJackson2HttpMessageConverter jsonHttpMessageConverter() {
 		MappingJackson2HttpMessageConverter config = new MappingJackson2HttpMessageConverter();
 
 		List<MediaType> supportedMediaTypes = new ArrayList<MediaType>();

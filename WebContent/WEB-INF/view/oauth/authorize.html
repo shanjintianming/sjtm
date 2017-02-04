@@ -20,20 +20,25 @@
   </head>
   <body>
     <div class="container">
-      <form id="authorizeForm" role="form" method="get">
+      <form id="authorizeForm" role="form" method="post">
         <div class="checkbox">
-          <input type="checkbox" id="authorizeId" name="authorize" value="1">
+          <input type="checkbox" id="authorizeId" name="scopes" value="1">
           <label for="authorizeId">ID</label>
         </div>
         <div class="checkbox">
-          <input type="checkbox" id="authorizeNm" name="authorize" value="2">
+          <input type="checkbox" id="authorizeNm" name="scopes" value="2">
           <label for="authorizeNm">名称</label>
         </div>
         <div class="checkbox">
-          <input type="checkbox" id="authorizePw" name="authorize" value="3">
+          <input type="checkbox" id="authorizePw" name="scopes" value="3">
           <label for="authorizePw">密码</label>
         </div>
         <div class="form-group">
+          <input type="hidden" value="${client.clientId}" name="client_id" >
+          <input type="hidden" value="${client.clientSecret}" name="client_secret" >
+          <input type="hidden" value="code" name="response_type" >
+          <input type="hidden" value="${redirectURI}" name="redirect_uri" >
+          <input type="hidden" value="" name="scope" >
           <button class="btn-primary form-control" id="submitBtn">提交</button>
         </div>
       </form>
@@ -51,9 +56,19 @@
     	});
     	
         $("#submitBtn").click(function(){
+        	
+        	var scopeVal = ""
+        	$("[name='scopes']:checked").each(function(){
+        		if(scopeVal != "") {
+        			scopeVal += " ";
+        		}
+        		scopeVal += $(this).val();
+        	})
+        	$("[name='scope']").val(scopeVal);
+        	
         	var local = window.location;
         	var basePath = local.protocol + "//" + local.host + "/";  
-        	$("#authorizeForm").attr("action",basePath + "login" + "/login");
+        	$("#authorizeForm").attr("action",basePath + "oauth/authorize");
         	$("#authorizeForm").submit();
         });
     });

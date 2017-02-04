@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class OauthClickExample {
+public class OauthClientExample {
     protected String orderByClause;
 
     protected boolean distinct;
@@ -15,7 +15,7 @@ public class OauthClickExample {
 
     protected Integer maxSize;
 
-    public OauthClickExample() {
+    public OauthClientExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -185,143 +185,143 @@ public class OauthClickExample {
             return (Criteria) this;
         }
 
-        public Criteria andClickIdIsNull() {
-            addCriterion("click_id is null");
+        public Criteria andClientIdIsNull() {
+            addCriterion("client_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andClickIdIsNotNull() {
-            addCriterion("click_id is not null");
+        public Criteria andClientIdIsNotNull() {
+            addCriterion("client_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andClickIdEqualTo(String value) {
-            addCriterion("click_id =", value, "clickId");
+        public Criteria andClientIdEqualTo(String value) {
+            addCriterion("client_id =", value, "clientId");
             return (Criteria) this;
         }
 
-        public Criteria andClickIdNotEqualTo(String value) {
-            addCriterion("click_id <>", value, "clickId");
+        public Criteria andClientIdNotEqualTo(String value) {
+            addCriterion("client_id <>", value, "clientId");
             return (Criteria) this;
         }
 
-        public Criteria andClickIdGreaterThan(String value) {
-            addCriterion("click_id >", value, "clickId");
+        public Criteria andClientIdGreaterThan(String value) {
+            addCriterion("client_id >", value, "clientId");
             return (Criteria) this;
         }
 
-        public Criteria andClickIdGreaterThanOrEqualTo(String value) {
-            addCriterion("click_id >=", value, "clickId");
+        public Criteria andClientIdGreaterThanOrEqualTo(String value) {
+            addCriterion("client_id >=", value, "clientId");
             return (Criteria) this;
         }
 
-        public Criteria andClickIdLessThan(String value) {
-            addCriterion("click_id <", value, "clickId");
+        public Criteria andClientIdLessThan(String value) {
+            addCriterion("client_id <", value, "clientId");
             return (Criteria) this;
         }
 
-        public Criteria andClickIdLessThanOrEqualTo(String value) {
-            addCriterion("click_id <=", value, "clickId");
+        public Criteria andClientIdLessThanOrEqualTo(String value) {
+            addCriterion("client_id <=", value, "clientId");
             return (Criteria) this;
         }
 
-        public Criteria andClickIdLike(String value) {
-            addCriterion("click_id like", value, "clickId");
+        public Criteria andClientIdLike(String value) {
+            addCriterion("client_id like", value, "clientId");
             return (Criteria) this;
         }
 
-        public Criteria andClickIdNotLike(String value) {
-            addCriterion("click_id not like", value, "clickId");
+        public Criteria andClientIdNotLike(String value) {
+            addCriterion("client_id not like", value, "clientId");
             return (Criteria) this;
         }
 
-        public Criteria andClickIdIn(List<String> values) {
-            addCriterion("click_id in", values, "clickId");
+        public Criteria andClientIdIn(List<String> values) {
+            addCriterion("client_id in", values, "clientId");
             return (Criteria) this;
         }
 
-        public Criteria andClickIdNotIn(List<String> values) {
-            addCriterion("click_id not in", values, "clickId");
+        public Criteria andClientIdNotIn(List<String> values) {
+            addCriterion("client_id not in", values, "clientId");
             return (Criteria) this;
         }
 
-        public Criteria andClickIdBetween(String value1, String value2) {
-            addCriterion("click_id between", value1, value2, "clickId");
+        public Criteria andClientIdBetween(String value1, String value2) {
+            addCriterion("client_id between", value1, value2, "clientId");
             return (Criteria) this;
         }
 
-        public Criteria andClickIdNotBetween(String value1, String value2) {
-            addCriterion("click_id not between", value1, value2, "clickId");
+        public Criteria andClientIdNotBetween(String value1, String value2) {
+            addCriterion("client_id not between", value1, value2, "clientId");
             return (Criteria) this;
         }
 
-        public Criteria andClickNameIsNull() {
-            addCriterion("click_name is null");
+        public Criteria andClientNameIsNull() {
+            addCriterion("client_name is null");
             return (Criteria) this;
         }
 
-        public Criteria andClickNameIsNotNull() {
-            addCriterion("click_name is not null");
+        public Criteria andClientNameIsNotNull() {
+            addCriterion("client_name is not null");
             return (Criteria) this;
         }
 
-        public Criteria andClickNameEqualTo(String value) {
-            addCriterion("click_name =", value, "clickName");
+        public Criteria andClientNameEqualTo(String value) {
+            addCriterion("client_name =", value, "clientName");
             return (Criteria) this;
         }
 
-        public Criteria andClickNameNotEqualTo(String value) {
-            addCriterion("click_name <>", value, "clickName");
+        public Criteria andClientNameNotEqualTo(String value) {
+            addCriterion("client_name <>", value, "clientName");
             return (Criteria) this;
         }
 
-        public Criteria andClickNameGreaterThan(String value) {
-            addCriterion("click_name >", value, "clickName");
+        public Criteria andClientNameGreaterThan(String value) {
+            addCriterion("client_name >", value, "clientName");
             return (Criteria) this;
         }
 
-        public Criteria andClickNameGreaterThanOrEqualTo(String value) {
-            addCriterion("click_name >=", value, "clickName");
+        public Criteria andClientNameGreaterThanOrEqualTo(String value) {
+            addCriterion("client_name >=", value, "clientName");
             return (Criteria) this;
         }
 
-        public Criteria andClickNameLessThan(String value) {
-            addCriterion("click_name <", value, "clickName");
+        public Criteria andClientNameLessThan(String value) {
+            addCriterion("client_name <", value, "clientName");
             return (Criteria) this;
         }
 
-        public Criteria andClickNameLessThanOrEqualTo(String value) {
-            addCriterion("click_name <=", value, "clickName");
+        public Criteria andClientNameLessThanOrEqualTo(String value) {
+            addCriterion("client_name <=", value, "clientName");
             return (Criteria) this;
         }
 
-        public Criteria andClickNameLike(String value) {
-            addCriterion("click_name like", value, "clickName");
+        public Criteria andClientNameLike(String value) {
+            addCriterion("client_name like", value, "clientName");
             return (Criteria) this;
         }
 
-        public Criteria andClickNameNotLike(String value) {
-            addCriterion("click_name not like", value, "clickName");
+        public Criteria andClientNameNotLike(String value) {
+            addCriterion("client_name not like", value, "clientName");
             return (Criteria) this;
         }
 
-        public Criteria andClickNameIn(List<String> values) {
-            addCriterion("click_name in", values, "clickName");
+        public Criteria andClientNameIn(List<String> values) {
+            addCriterion("client_name in", values, "clientName");
             return (Criteria) this;
         }
 
-        public Criteria andClickNameNotIn(List<String> values) {
-            addCriterion("click_name not in", values, "clickName");
+        public Criteria andClientNameNotIn(List<String> values) {
+            addCriterion("client_name not in", values, "clientName");
             return (Criteria) this;
         }
 
-        public Criteria andClickNameBetween(String value1, String value2) {
-            addCriterion("click_name between", value1, value2, "clickName");
+        public Criteria andClientNameBetween(String value1, String value2) {
+            addCriterion("client_name between", value1, value2, "clientName");
             return (Criteria) this;
         }
 
-        public Criteria andClickNameNotBetween(String value1, String value2) {
-            addCriterion("click_name not between", value1, value2, "clickName");
+        public Criteria andClientNameNotBetween(String value1, String value2) {
+            addCriterion("client_name not between", value1, value2, "clientName");
             return (Criteria) this;
         }
 

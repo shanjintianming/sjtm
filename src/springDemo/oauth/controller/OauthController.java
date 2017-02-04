@@ -2,6 +2,11 @@ package springDemo.oauth.controller;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,9 +37,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
+import springDemo.core.shiro.Principal;
 import springDemo.oauth.service.OauthService;
+import springDemo.oauth.vo.OauthClientAuthorize;
 
 @Controller
 @RequestMapping("/oauth")
@@ -51,9 +61,11 @@ public class OauthController {
 		try {
 			// 构建OAuth 授权请求
 			OAuthAuthzRequest oauthRequest = new OAuthAuthzRequest(request);
-
+			
+			String clientId = oauthRequest.getClientId();
+			
 			// 检查传入的客户端id是否正确
-			if (!oAuthService.checkClientId(oauthRequest.getClientId())) {
+			if (!oAuthService.checkClientId(clientId)) {
 				OAuthResponse response = OAuthASResponse.errorResponse(HttpServletResponse.SC_BAD_REQUEST)
 						.setError(OAuthError.TokenResponse.INVALID_CLIENT).setErrorDescription("客户端验证失败")
 						.buildJSONMessage();
@@ -77,8 +89,49 @@ public class OauthController {
 
 			}
 
-			String username = (String) subject.getPrincipal();
+			// 获取登录用户信息
+			Principal userPrincipal = (Principal) subject.getPrincipal();
 
+			// 获取用户名
+			String userName = userPrincipal.getUserName();
+			
+			// 获取用户ID
+			String userId = userPrincipal.getUserId();
+			
+			// 用户授权第三方权限信息
+			OauthClientAuthorize info = new OauthClientAuthorize();
+			
+			// 第三方应用Id
+			info.setClientId(clientId);
+			
+			// 用户ID
+			info.setUserId(userId);
+			
+			// 根据用户ID和第三方应用Id查找授权内容
+			List<OauthClientAuthorize> result = oAuthService.findAuthorizeInfoByUserAndClient(info);
+			
+			if (result == null) {	
+				Set<String> scopeSet = oauthRequest.getScopes();
+				
+				if (scopeSet == null || scopeSet.isEmpty()) {
+					model.addAttribute("client", oAuthService.findByClientId(oauthRequest.getClientId()));
+					model.addAttribute("redirectURI", redirectURI);
+					return "oauth/authorize";
+				}
+
+				List<OauthClientAuthorize> infoLst = new ArrayList<OauthClientAuthorize>();
+				
+				for(String scopre : scopeSet){
+					OauthClientAuthorize scopeInfo = new OauthClientAuthorize();
+					scopeInfo.setClientId(clientId);
+					scopeInfo.setUserId(userId);
+					scopeInfo.setCodeAuthorizeId(Integer.valueOf(scopre));
+					infoLst.add(scopeInfo);
+				}
+
+				oAuthService.BatchInsetAuthorizeInfo(infoLst);
+			}
+			
 			// 生成授权码
 			String authorizationCode = null;
 
@@ -88,7 +141,7 @@ public class OauthController {
 				OAuthIssuerImpl oauthIssuerImpl = new OAuthIssuerImpl(new MD5Generator());
 				authorizationCode = oauthIssuerImpl.authorizationCode();
 
-				Element lgEle = new Element(username + "_code", authorizationCode);
+				Element lgEle = new Element(authorizationCode, userName);
 				cacheManager.getCache("oauthCache").put(lgEle);
 			}
 
@@ -128,8 +181,9 @@ public class OauthController {
 		}
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping("/accessToken")
-	public HttpEntity<Object> token(HttpServletRequest request) throws URISyntaxException, OAuthSystemException {
+	public HttpEntity token(HttpServletRequest request) throws URISyntaxException, OAuthSystemException {
 		try {
 			// 构建OAuth请求
 			OAuthTokenRequest oauthRequest = new OAuthTokenRequest(request);
@@ -141,7 +195,7 @@ public class OauthController {
 						.setError(OAuthError.TokenResponse.INVALID_CLIENT)
 						.setErrorDescription("")
 						.buildJSONMessage();
-				return new ResponseEntity<Object>(response.getBody(), HttpStatus.valueOf(response.getResponseStatus()));
+				return new ResponseEntity(response.getBody(), HttpStatus.valueOf(response.getResponseStatus()));
 			}
 
 			// 检查客户端安全KEY是否正确
@@ -151,26 +205,23 @@ public class OauthController {
 						.setError(OAuthError.TokenResponse.UNAUTHORIZED_CLIENT)
 						.setErrorDescription("")
 						.buildJSONMessage();
-				return new ResponseEntity<Object>(response.getBody(), HttpStatus.valueOf(response.getResponseStatus()));
+				return new ResponseEntity(response.getBody(), HttpStatus.valueOf(response.getResponseStatus()));
 			}
 
 			String authCode = oauthRequest.getParam(OAuth.OAUTH_CODE);
 
 			// 检查验证类型，此处只检查AUTHORIZATION_CODE类型，其他的还有PASSWORD或REFRESH_TOKEN
 			if (oauthRequest.getParam(OAuth.OAUTH_GRANT_TYPE).equals(GrantType.AUTHORIZATION_CODE.toString())) {
-				Subject subject = SecurityUtils.getSubject();
-				String username = (String) subject.getPrincipal();			
-				Element lgEle = cacheManager.getCache("oauthCache").get(username + "_code");
-				if (lgEle != null) {
-					String authorizationCode = (String) lgEle.getObjectValue();
-					if (!authorizationCode.equals(authCode)) {
-						OAuthResponse response = OAuthASResponse
-								.errorResponse(HttpServletResponse.SC_BAD_REQUEST)
-								.setError(OAuthError.TokenResponse.INVALID_GRANT)
-								.setErrorDescription("错误的授权码")
-								.buildJSONMessage();
-						return new ResponseEntity<Object>(response.getBody(), HttpStatus.valueOf(response.getResponseStatus()));
-					}	
+				
+				Element lgEle = cacheManager.getCache("oauthCache").get(authCode);
+
+				if (lgEle == null) {
+					OAuthResponse response = OAuthASResponse
+							.errorResponse(HttpServletResponse.SC_BAD_REQUEST)
+							.setError(OAuthError.TokenResponse.INVALID_GRANT)
+							.setErrorDescription("错误的授权码")
+							.buildJSONMessage();
+					return new ResponseEntity(response.getBody(), HttpStatus.valueOf(response.getResponseStatus()));
 				}
 			}
 
@@ -180,16 +231,28 @@ public class OauthController {
 			// oAuthService.addAccessToken(accessToken, oAuthService.getUsernameByAuthCode(authCode));
 
 			// 生成OAuth响应
-			OAuthResponse response = OAuthASResponse.tokenResponse(HttpServletResponse.SC_OK)
-					.setAccessToken(accessToken).setExpiresIn("Name").buildJSONMessage();
+//			OAuthResponse response = OAuthASResponse.tokenResponse(HttpServletResponse.SC_OK)
+//					.setAccessToken().setExpiresIn("3600").buildJSONMessage();
+			
+			Map<String,Object> oauthMap = new HashMap<String,Object>();
+			oauthMap.put("accessToken", accessToken);
+			oauthMap.put("expiresIn", 3600);
+			
+			ObjectMapper jsonUtil = new ObjectMapper();
+			String body = null;
+			try {
+				body = jsonUtil.writeValueAsString(oauthMap);
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
 			
 			// 根据OAuthResponse生成ResponseEntity
-			return new ResponseEntity<Object>(response.getBody(), HttpStatus.valueOf(response.getResponseStatus()));
+			return new ResponseEntity(body, HttpStatus.valueOf(HttpServletResponse.SC_OK));
 		} catch (OAuthProblemException e) {
 			// 构建错误响应
 			OAuthResponse res = OAuthASResponse.errorResponse(HttpServletResponse.SC_BAD_REQUEST).error(e)
 					.buildJSONMessage();
-			return new ResponseEntity<Object>(res.getBody(), HttpStatus.valueOf(res.getResponseStatus()));
+			return new ResponseEntity(res.getBody(), HttpStatus.valueOf(res.getResponseStatus()));
 		}
 	}
 

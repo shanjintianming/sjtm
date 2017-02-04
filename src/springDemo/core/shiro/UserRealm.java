@@ -59,7 +59,7 @@ public class UserRealm extends AuthorizingRealm  implements ApplicationContextAw
 		
 		//交给AuthenticatingRealm使用CredentialsMatcher进行密码匹配，如果觉得人家的不好可以自定义实现
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
-        		userName, //用户名
+        		new Principal(oauthUser.getUserId(), userName), //用户信息
         		password, //密码
                 getName()  //realm name
         );

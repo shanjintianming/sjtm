@@ -2,12 +2,12 @@ package springDemo.oauth.vo;
 
 import java.util.Date;
 
-public class OauthClick {
+public class OauthClient {
     private Integer id;
 
-    private String clickId;
+    private String clientId;
 
-    private String clickName;
+    private String clientName;
 
     private String clientSecret;
 
@@ -23,20 +23,20 @@ public class OauthClick {
         this.id = id;
     }
 
-    public String getClickId() {
-        return clickId;
+    public String getClientId() {
+        return clientId;
     }
 
-    public void setClickId(String clickId) {
-        this.clickId = clickId == null ? null : clickId.trim();
+    public void setClientId(String clientId) {
+        this.clientId = clientId == null ? null : clientId.trim();
     }
 
-    public String getClickName() {
-        return clickName;
+    public String getClientName() {
+        return clientName;
     }
 
-    public void setClickName(String clickName) {
-        this.clickName = clickName == null ? null : clickName.trim();
+    public void setClientName(String clientName) {
+        this.clientName = clientName == null ? null : clientName.trim();
     }
 
     public String getClientSecret() {
