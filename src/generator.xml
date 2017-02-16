@@ -15,7 +15,7 @@
 		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
 			connectionURL="jdbc:mysql://localhost:3306/oauth?zeroDateTimeBehavior=convertToNull&amp;serverTimezone=GMT%2b8" userId="root" password="123456" />
 		<!-- 实体类配置 -->
-		<javaModelGenerator targetPackage="springDemo.oauth.vo"
+		<javaModelGenerator targetPackage="springDemo.file.vo"
 			targetProject="springDemo">
 			<!-- 生成包名是否自动添加项目名称 -->
 			<property name="enableSubPackages" value="false" />
@@ -24,7 +24,7 @@
 		</javaModelGenerator>
 
 		<!-- 数据库表的Mapper映射配置文件 -->
-		<sqlMapGenerator targetPackage="springDemo.oauth.mapper"
+		<sqlMapGenerator targetPackage="springDemo.file.mapper"
 			targetProject="springDemo">
 			<!-- 生成包名是否自动添加项目名称 -->
 			<property name="enableSubPackages" value="false" />
@@ -32,14 +32,14 @@
 
 		<!-- 数据持久层文件 -->
 		<javaClientGenerator type="XMLMAPPER"
-			targetPackage="springDemo.oauth.dao" targetProject="springDemo">
+			targetPackage="springDemo.file.dao" targetProject="springDemo">
 			<!-- 生成包名是否自动添加项目名称 -->
 			<property name="enableSubPackages" value="false" />
 		</javaClientGenerator>
 
 		<!-- sqlMap映射的表 -->
-		<table tableName="oauth_client_authorize" schema="oauth">
-			<generatedKey column="id" sqlStatement="Mysql"/>
+		<table tableName="oauth_file" schema="oauth">
+			<generatedKey column="file_id" sqlStatement="Mysql"/>
 		</table>
 	</context>
 </generatorConfiguration>

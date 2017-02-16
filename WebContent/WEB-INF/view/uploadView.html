@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    $[ include("/common/common.html",{title:'登录'}){} ]
+    
+    <!-- 新 icheck 核心 CSS 文件 -->
+    <link href="${basePath}static/components/polaroid-gallery/css/polaroid-gallery.css" rel="stylesheet" >
+  	 
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="${basePath}static/components/polaroid-gallery/js/polaroid-gallery.js"></script>
+
+  </head>
+  <body>
+    <div class="container">
+      <form id="loginForm" role="form" method="post">     
+        <div class="form-group">
+          <div id="fileLst">
+          </div>
+        </div>
+      </form>
+    </div>
+    
+    <script>
+    $(document).ready(function() {    	
+    	$("#fileLst").polaroidGallery({
+    		url: '${basePath}getFile'
+    	});
+    });
+    </script>
+  </body>
+</html>

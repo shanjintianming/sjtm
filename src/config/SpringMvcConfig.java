@@ -164,8 +164,8 @@ public class SpringMvcConfig extends WebMvcConfigurationSupport {
 	
 	@Override
 	protected void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-		converters.add(stringHttpMessageConverter());
 		converters.add(jsonHttpMessageConverter());
+		converters.add(stringHttpMessageConverter());		
 	}
 	
 	@Bean(name = "stringHttpMessageConverter")

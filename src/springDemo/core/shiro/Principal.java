@@ -1,6 +1,13 @@
 package springDemo.core.shiro;
 
-public class Principal {
+import java.io.Serializable;
+
+public class Principal implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private String userId;
 
     private String userName;
