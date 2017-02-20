@@ -19,6 +19,13 @@ public class LoginController {
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String toLogin() {
+		
+		Subject subject = SecurityUtils.getSubject();
+		
+		if (subject.isAuthenticated()) {
+			return "uploadView";
+		}
+		
 		return "login";
 	}
 	

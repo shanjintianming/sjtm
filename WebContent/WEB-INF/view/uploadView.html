@@ -2,19 +2,36 @@
 <html lang="zh-CN">
   <head>
     $[ include("/common/common.html",{title:'登录'}){} ]
+
+    <link href="${basePath}static/components/lightgallery/css/lightgallery.css" rel="stylesheet" >
+    <link href="${basePath}static/components/lightgallery/css/lg-fb-comment-box.css" rel="stylesheet" >
+    <link href="${basePath}static/components/lightgallery/css/lg-transitions.css" rel="stylesheet" >
+    
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="${basePath}static/components/lightgallery/js/lightgallery.js"></script>
+    
+    <script src="${basePath}static/components/lightgallery/js/lg-autoplay.js"></script>
+    <script src="${basePath}static/components/lightgallery/js/lg-fullscreen.js"></script>
+    <script src="${basePath}static/components/lightgallery/js/lg-hash.js"></script>
+    <script src="${basePath}static/components/lightgallery/js/lg-pager.js"></script>
+    <script src="${basePath}static/components/lightgallery/js/lg-share.js"></script>
+    <script src="${basePath}static/components/lightgallery/js/lg-video.js"></script>
+    <!-- <script src="${basePath}static/components/lightgallery/js/lg-zoom.js"></script> -->
+    <script src="${basePath}static/components/lightgallery/js/lg-thumbnail.js"></script>
     
     <!-- 新 icheck 核心 CSS 文件 -->
-    <link href="${basePath}static/components/polaroid-gallery/css/polaroid-gallery.css" rel="stylesheet" >
+    <link href="${basePath}static/components/polaroid-gallery/css/polaroid_gallery.css" rel="stylesheet" >
   	 
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="${basePath}static/components/polaroid-gallery/js/polaroid-gallery.js"></script>
+    
 
   </head>
   <body>
     <div class="container">
       <form id="loginForm" role="form" method="post">     
         <div class="form-group">
-          <div id="fileLst">
+          <div style="width:900px;height:550px;" id="fileLst" class="polaroid-gallery">
           </div>
         </div>
       </form>
@@ -23,7 +40,8 @@
     <script>
     $(document).ready(function() {    	
     	$("#fileLst").polaroidGallery({
-    		url: '${basePath}getFile'
+    		url: '${basePath}getFile',
+    		unordered:true
     	});
     });
     </script>
