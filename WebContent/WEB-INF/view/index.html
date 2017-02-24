@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <!--: include("/common/common.html",{title:'首页'}){} -->
+    
+    <link rel="stylesheet" href="${basePath}static/components/nivo-slider/css/themes/default/default.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="${basePath}static/components/nivo-slider/css/themes/light/light.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="${basePath}static/components/nivo-slider/css/themes/dark/dark.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="${basePath}static/components/nivo-slider/css/themes/bar/bar.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="${basePath}static/components/nivo-slider/css/nivo-slider.css" type="text/css" media="screen" />
+    <script type="text/javascript" src="${basePath}static/components/nivo-slider/js/jquery.nivo.slider.js"></script>
+  </head>
+    <!--: layout("/common/layout.html"){  -->
+      <div class="container">
+        <div class="row">
+          <div id="wrapper" class="col-md-9 col-md-push-1">
+            <div class="slider-wrapper theme-default">
+              <div id="slider" class="nivoSlider">
+                <img src="${basePath}static/images/toystory.jpg" data-thumb="${basePath}static/images/toystory.jpg" alt="" />
+                <img src="${basePath}static/images/up.jpg" data-thumb="${basePath}static/images/up.jpg" alt="" title="" />
+                <img src="${basePath}static/images/walle.jpg" data-thumb="${basePath}static/images/walle.jpg" alt="" data-transition="slideInLeft" />
+                <img src="${basePath}static/images/nemo.jpg" data-thumb="${basePath}static/images/nemo.jpg" alt="" title="#htmlcaption" />
+              </div>
+              <div id="htmlcaption" class="nivo-html-caption">
+                <strong>This</strong> is an example of a <em>HTML</em> caption with <a href="#">a link</a>. 
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script type="text/javascript">
+	      $(document).ready(function() {
+	          $('#slider').nivoSlider({
+	        	
+	          });
+	      });
+      </script>
+    <!--: }  -->
+</html>

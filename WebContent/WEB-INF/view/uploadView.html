@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
   <head>
-    $[ include("/common/common.html",{title:'登录'}){} ]
+    <!--: include("/common/common.html",{title:'首页'}){} -->
 
     <link href="${basePath}static/components/lightgallery/css/lightgallery.css" rel="stylesheet" >
     <link href="${basePath}static/components/lightgallery/css/lg-fb-comment-box.css" rel="stylesheet" >
@@ -27,7 +27,7 @@
     
 
   </head>
-  <body>
+  <!--: layout("/common/layout.html"){  -->
     <div class="container">
       <form id="loginForm" role="form" method="post">     
         <div class="form-group">
@@ -45,5 +45,5 @@
     	});
     });
     </script>
-  </body>
+  <!--: }  -->
 </html>

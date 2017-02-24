@@ -1,0 +1,143 @@
+  <body style="padding-top:70px">
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid"> 
+        <div class="navbar-header"> 
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="javascript:void(0)">随便玩</a> 
+        </div>
+        <div id="navbar" class="navbar-collapse collapse in">
+          <ul id="log" class="nav navbar-nav navbar-right">
+            <!--: var user = getUser();
+				  // 用户是否登录
+		          if (user == null) {  -->
+            <li><a id="loginLink" href="javascript:void(0)"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li>
+            <!--: } else { -->
+            <li><a href="${basePath}uploadView"><span class="glyphicon glyphicon-user"></span> ${user.userName}</a></li>
+            <li><a href="${basePath}logout"><span class="glyphicon glyphicon-log-out"></span> 登出</a></li>
+            <!--: } -->
+          </ul>
+        </div> 
+      </div> 
+    </nav>
+${layoutContent}
+
+    <script>
+    $(document).ready(function() {
+    	var formVali = function() {
+    		var vali = $("#loginForm").validate({
+    			rules: {
+    				userName: "required",
+    				userPassword: "required"
+    			},
+    			messages: {
+    				userName: "Please enter your name",
+    				userPassword: "Please enter your password"
+    			},
+    			errorElement: "em",
+    			errorPlacement: function ( error, element ) {
+    				// Add the `help-block` class to the error element
+    				error.addClass( "help-block" );
+
+    				// Add `has-feedback` class to the parent div.form-group
+    				// in order to add icons to inputs
+    				element.parents( ".form-group" ).addClass( "has-feedback" );
+
+    				if ( element.prop( "type" ) === "checkbox" ) {
+    					error.insertAfter( element.parent( "label" ) );
+    				} else {
+    					error.insertAfter( element );
+    				}
+
+    				// Add the span element, if doesn't exists, and apply the icon classes to it.
+    				if ( !element.next( "span" )[ 0 ] ) {
+    					$( "<span class='glyphicon glyphicon-remove form-control-feedback'></span>" ).insertAfter( element );
+    				}
+    			},
+    			success: function (label, element) {
+    				// Add the span element, if doesn't exists, and apply the icon classes to it.
+    				if ( !$( element ).next( "span" )[ 0 ] ) {
+    					$( "<span class='glyphicon glyphicon-ok form-control-feedback'></span>" ).insertAfter( $( element ) );
+    				}
+    			},
+    			highlight: function ( element, errorClass, validClass ) {
+    				$( element ).parents( ".form-group" ).addClass( "has-error" ).removeClass( "has-success" );
+    				$( element ).next( "span" ).addClass( "glyphicon-remove" ).removeClass( "glyphicon-ok" );
+    			},
+    			unhighlight: function ( element, errorClass, validClass ) {
+    				$( element ).parents( ".form-group" ).addClass( "has-success" ).removeClass( "has-error" );
+    				$( element ).next( "span" ).addClass( "glyphicon-ok" ).removeClass( "glyphicon-remove" );
+    			}
+    		});	
+    		return vali;
+    	}
+    	
+    	var submit = function submit(dialog){
+    		var vali = formVali();
+	    	$("#submitBtn").off("click");
+	    	$("#submitBtn").on("click", function(){
+	    		
+	    		if (vali.form()) {
+	    			var local = window.location;
+	            	var basePath = local.protocol + "//" + local.host + "/";        	
+	       	
+	            	$.ajax({
+	            		type     : "post",
+	            		url      : basePath + "ajaxLogin",
+	            		data     : $("#loginForm").serialize(),
+	            		dataType : "json",
+	            		success  : function(data){
+	            			if (data.result){
+	            				var logHtml = '<li><a href="'+ basePath +'uploadView"><span class="glyphicon glyphicon-user"></span> ';
+	            				logHtml += $("[name='userName']").val();
+	            				logHtml += '</a></li>\r\n';
+	            				logHtml += '<li><a href="'+ basePath +'logout"><span class="glyphicon glyphicon-log-out"></span> 登出</a></li>';
+	            				$("#log").html(logHtml);
+	            				dialog.close();
+	            			} else {
+	            				$("#errorDiv").html(data.message);
+	            			}
+	            		},
+	            		error    : function(data){
+	            			alert(data);
+	            		}
+	            	});	
+	    		}
+	    	});
+        };
+    	        
+        var login = function() {
+        	$("#loginLink").off("click");
+        	$("#loginLink").on("click",function() {
+	        	BootstrapDialog.show({
+	                title: '<div>登录</div>',
+	                headAlign: 'center',
+	                message: '<form id="loginForm" role="form" method="post">'
+		               	+ '<div id="errorDiv" style="color:red" class="form-group"></div>'
+		       	        + '<div class="form-group has-feedback">'
+		       	        + '<input type="text" style="padding-left:30px" class="form-control" value=""'
+		       	        + ' name="userName" autocomplete="off" placeholder="请输入名称">'
+		       	        + '<i style="left:0px" class="glyphicon glyphicon-user form-control-feedback"></i>'
+		       	        + '</div>'
+		       	        + '<div class="form-group has-feedback">'
+		       	        + '<input type="password" style="padding-left:30px" class="form-control" value=""' 
+		       	        + ' name="userPassword" autocomplete="off" placeholder="请输入密码">'
+		       	        + '<i style="left:0px" class="glyphicon glyphicon-lock form-control-feedback"></i>'
+		       	        + '</div>'
+		       	        + '<div class="form-group">'
+		       	        + '<button type="button" class="btn-primary form-control" id="submitBtn">提交</button>'
+		       	        + '</div>'
+		       	        + '</form>',
+	       	        onshown: submit
+	            });
+	        })
+        };
+        
+        login();
+    });
+    </script>
+    </body>
