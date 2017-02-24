@@ -8,6 +8,7 @@ public class OauthUser {
     @NotEmpty
     private String userName;
 
+    @NotEmpty
     private String userPassword;
 
     public String getUserId() {

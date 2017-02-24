@@ -24,6 +24,16 @@ public class FileController {
 	@Autowired
 	private FileService fileService;
 	
+	@RequestMapping(value = "/upload", method = RequestMethod.GET)
+	public String toUpload() {
+		return "upload";
+	}
+	
+	@RequestMapping(value = "/uploadView", method = RequestMethod.GET)
+	public String toUploadView() {
+		return "uploadView";
+	}
+	
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	@ResponseBody
 	public UploadDto toLogin(@RequestParam("fileLst") CommonsMultipartFile[] fileLst) {

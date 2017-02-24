@@ -28,6 +28,7 @@ public class ShiroFilterConfig {
 		filterChainDefinitionMap.put("/", "anon");
 		filterChainDefinitionMap.put("/index.html", "anon");
 		filterChainDefinitionMap.put("/login", "anon");
+		filterChainDefinitionMap.put("/ajaxLogin", "anon");	
 		filterChainDefinitionMap.put("/oauth/**", "anon");
 		filterChainDefinitionMap.put("/static/**", "anon");
 		filterChainDefinitionMap.put("/**", "authc");
