@@ -9,8 +9,7 @@ public class SessionIdCookieConfig {
 	
 	@Bean(name="sessionIdCookie")  
 	public SimpleCookie sessionIdCookie() {	
-		SimpleCookie config = new SimpleCookie();
-		config.setName("sid");
+		SimpleCookie config = new SimpleCookie("WAPSESSIONID");
 		config.setHttpOnly(true);
 		return config;
 	}

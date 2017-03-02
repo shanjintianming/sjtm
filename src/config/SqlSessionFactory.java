@@ -27,7 +27,7 @@ public class SqlSessionFactory {
 		sqlSessionFactoryBean.setDataSource(dataSource);
 		
 		ResourcePatternResolver resolver = (ResourcePatternResolver) new PathMatchingResourcePatternResolver();       
-        String typeAliasesPackage = "classpath*:springDemo/**/mapper/*.xml";    
+        String typeAliasesPackage = "classpath*:springdemo/**/mapper/*.xml";    
 
 		try {
 			org.springframework.core.io.Resource[] resources = resolver.getResources(typeAliasesPackage);

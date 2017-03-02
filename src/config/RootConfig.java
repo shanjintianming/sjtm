@@ -8,15 +8,15 @@ import org.springframework.context.annotation.Import;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import config.shiro.ShiroFilterConfig;
+import config.shiro.ShiroConfig;
 
 @Configuration 
-@ComponentScan(basePackages = "springDemo", excludeFilters = {
+@ComponentScan(basePackages = "springdemo", excludeFilters = {
 		@ComponentScan.Filter(type = FilterType.ANNOTATION, value = { Controller.class }) })
 @EnableAspectJAutoProxy(proxyTargetClass=true)  
 //启用注解事务管理，使用CGLib代理  
 @EnableTransactionManagement(proxyTargetClass = true)
-@Import(value={DaoConfig.class, ShiroFilterConfig.class})
+@Import(value={DaoConfig.class, ShiroConfig.class})
 public class RootConfig {
-	
+
 }

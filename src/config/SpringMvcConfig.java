@@ -3,10 +3,12 @@ package config;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import org.beetl.ext.spring.BeetlGroupUtilConfiguration;
 import org.beetl.ext.spring.BeetlSpringViewResolver;
 import org.hibernate.validator.HibernateValidator;
+import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -25,15 +27,16 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 import org.springframework.web.servlet.handler.SimpleServletHandlerAdapter;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
 @Configuration
-@ComponentScan(basePackages = "springDemo.*.controller", useDefaultFilters = false, includeFilters = {
+@ComponentScan(basePackages = "springdemo.*.controller", useDefaultFilters = false, includeFilters = {
 		@ComponentScan.Filter(type = FilterType.ANNOTATION, value = { Controller.class }) })
 public class SpringMvcConfig extends WebMvcConfigurationSupport {
-
+	
 	/**
 	 * 描述 : <注册jsp试图处理器>. <br>
 	 * 
@@ -193,6 +196,33 @@ public class SpringMvcConfig extends WebMvcConfigurationSupport {
 		supportedMediaTypes.add(textMediaType);
 		supportedMediaTypes.add(jsonMediaType);
 		config.setSupportedMediaTypes(supportedMediaTypes);
+		return config;
+	}
+	
+	/**
+	 * 实现spring的自动代理
+	 * 实现了BeanProcessor接口,当ApplicationContext读如所有的Bean配置信息后，
+	 * 这个类将扫描上下文，寻找所有的Advistor(一个Advisor是一个切入点和一个通知的组成)，
+	 * 将这些Advisor应用到所有符合切入点的Bean中
+	 * @return
+	 */
+	@Bean(name="defaultAdvisorAutoProxyCreator")
+	public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator() {
+		DefaultAdvisorAutoProxyCreator config = new DefaultAdvisorAutoProxyCreator();
+		return config;
+	}
+	
+	/**
+	 * 将不同的异常映射到不同的jsp页面（通过exceptionMappings属性的配置）
+	 * 同时我们也可以为所有的异常指定一个默认的异常提示页面（通过defaultErrorView属性的配置
+	 * @return
+	 */
+	@Bean(name="simpleMappingExceptionResolver")
+	public SimpleMappingExceptionResolver simpleMappingExceptionResolver() {
+		SimpleMappingExceptionResolver config = new SimpleMappingExceptionResolver();
+		Properties mappings = new Properties();
+		mappings.put("org.apache.shiro.authz.UnauthorizedException", "unauthorized");
+		config.setExceptionMappings(mappings);
 		return config;
 	}
 }

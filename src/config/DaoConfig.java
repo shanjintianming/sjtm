@@ -13,7 +13,7 @@ public class DaoConfig {
 	public MapperScannerConfigurer mapperScannerConfigurer() {	
 		MapperScannerConfigurer config = new MapperScannerConfigurer();
 		config.setSqlSessionFactoryBeanName("SqlSessionFactor");
-		config.setBasePackage("springDemo.*.dao");
+		config.setBasePackage("springdemo.*.dao");
 		return config;
 	}
 }
